@@ -16,6 +16,7 @@ const generateNewNote = () => ({
 const App = () => {
   const [note, setNote] = useStateWithLocalStorage("note", generateNewNote());
   const [history, setHistory] = useStateWithLocalStorage("history", []);
+  const [showHistory, setShowHistory] = useState(false);
 
   const addYesterday = value => addByProperty("yesterday", value);
   const addToday = value => addByProperty("today", value);
@@ -28,12 +29,21 @@ const App = () => {
     });
   };
 
+  const deleteYesterday = index => deleteByProperty("yesterday", index);
+  const deleteToday = index => deleteByProperty("today", index);
+  const deleteBlocker = index => deleteByProperty("blockers", index);
+
+  const deleteByProperty = (property, index) => {
+    setNote({
+      ...note,
+      [property]: note[property].filter((val, i) => i !== index)
+    });
+  };
+
   const newNote = () => {
     setHistory([{ ...note, timestamp: new Date() }, ...history]);
     setNote(generateNewNote());
   };
-
-  const [showHistory, setShowHistory] = useState(false);
 
   const showNew = () =>
     note.yesterday.length > 0 ||
@@ -49,9 +59,12 @@ const App = () => {
           onAddYesterday={addYesterday}
           onAddToday={addToday}
           onAddBlocker={addBlocker}
+          onDeleteYesterday={deleteYesterday}
+          onDeleteToday={deleteToday}
+          onDeleteBlocker={deleteBlocker}
         />
       </div>
-      <div className="App">
+      <div className="bottom">
         {showNew() && <button onClick={newNote}>New</button>}
         {history.length > 0 && (
           <>

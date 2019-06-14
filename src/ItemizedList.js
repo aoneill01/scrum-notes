@@ -7,7 +7,7 @@ const formatItem = item =>
     "[$&](https://pointsource.atlassian.net/browse/$&)"
   )}`;
 
-const ItemizedList = ({ items, onNewItem, editable }) => {
+const ItemizedList = ({ items, onNewItem, onDeleteItem, editable }) => {
   const [newItem, setNewItem] = useState("");
   const handleSubmit = evt => {
     evt.preventDefault();
@@ -19,8 +19,15 @@ const ItemizedList = ({ items, onNewItem, editable }) => {
 
   return (
     <>
-      {items.map(item => (
-        <ReactMarkdown source={formatItem(item)} />
+      {items.map((item, i) => (
+        <div className="row">
+          {editable && (
+            <div className="delete-row" onClick={() => onDeleteItem(i)}>
+              ×
+            </div>
+          )}
+          <ReactMarkdown source={formatItem(item)} />
+        </div>
       ))}
       {editable && (
         <form onSubmit={handleSubmit}>
