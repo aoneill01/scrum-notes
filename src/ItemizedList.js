@@ -7,12 +7,14 @@ const formatItem = item =>
     "[$&](https://pointsource.atlassian.net/browse/$&)"
   )}`;
 
-const ItemizedList = ({ items, onNewItem }) => {
+const ItemizedList = ({ items, onNewItem, editable }) => {
   const [newItem, setNewItem] = useState("");
   const handleSubmit = evt => {
     evt.preventDefault();
-    onNewItem(newItem);
-    setNewItem("");
+    if (newItem) {
+      onNewItem(newItem);
+      setNewItem("");
+    }
   };
 
   return (
@@ -20,13 +22,15 @@ const ItemizedList = ({ items, onNewItem }) => {
       {items.map(item => (
         <ReactMarkdown source={formatItem(item)} />
       ))}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={newItem}
-          onChange={e => setNewItem(e.target.value)}
-        />
-      </form>
+      {editable && (
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            value={newItem}
+            onChange={e => setNewItem(e.target.value)}
+          />
+        </form>
+      )}
     </>
   );
 };
