@@ -2,7 +2,8 @@ body {
   margin: 1em;
 }
 
-.bottom, .current {
+.bottom,
+.current {
   font-family: "Roboto", sans-serif;
   font-size: 16px;
   margin: 0 auto;
@@ -12,13 +13,17 @@ body {
 
 .current {
   background-color: white;
-  border-radius: .5em;
+  border-radius: 0 0 0.5em 0.5em;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12);
 }
 
 h1 {
   margin-top: 0;
   border-bottom: 2px solid rgb(206, 206, 206);
+}
+
+h2 {
+  margin-bottom: 0;
 }
 
 button {
@@ -32,18 +37,20 @@ button {
   padding: 0.5em;
 }
 
-button:hover, button:focus {
+button:hover,
+button:focus {
   background-color: rgb(69, 175, 204);
   box-shadow: 0 0 5px rgba(81, 203, 238, 1);
 }
 
 input[type="text"] {
   border: 2px solid rgb(206, 206, 206);
-  border-radius: .2em;
+  border-radius: 0.2em;
   box-sizing: border-box;
   font-size: 1em;
+  margin-top: 0.5em;
   outline: none;
-  padding: .4em;
+  padding: 0.4em;
   width: 100%;
 }
 
@@ -70,6 +77,10 @@ input[type="text"]:focus {
   color: rgb(212, 0, 0);
 }
 
+.row {
+  padding: 1px 0;
+}
+
 .row:hover {
   background-color: rgb(250, 250, 250);
 }
@@ -77,4 +88,28 @@ input[type="text"]:focus {
 .row:hover .delete-row {
   display: block;
   cursor: pointer;
+}
+
+ul,
+p {
+  margin: 0.5em 0;
+}
+
+.item-enter {
+  max-height: 0;
+  opacity: 0;
+}
+.item-enter-active {
+  opacity: 1;
+  max-height: 5em;
+  transition: max-height 200ms ease-in, opacity 300ms 200ms ease-in;
+}
+.item-exit {
+  opacity: 1;
+  max-height: 5em;
+}
+.item-exit-active {
+  opacity: 0;
+  max-height: 0;
+  transition: opacity 300ms ease-in, max-height 200ms 300ms ease-in;
 }
