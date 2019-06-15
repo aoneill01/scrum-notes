@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
+import * as nanoid from "nanoid";
 import Note from "./Note";
 import History from "./History";
 import useStateWithLocalStorage from "./useStateWithLocalStorage";
@@ -25,18 +26,18 @@ const App = () => {
   const addByProperty = (property, value) => {
     setNote({
       ...note,
-      [property]: [...note[property], value]
+      [property]: [...note[property], { id: nanoid(), message: value }]
     });
   };
 
-  const deleteYesterday = index => deleteByProperty("yesterday", index);
-  const deleteToday = index => deleteByProperty("today", index);
-  const deleteBlocker = index => deleteByProperty("blockers", index);
+  const deleteYesterday = id => deleteByProperty("yesterday", id);
+  const deleteToday = id => deleteByProperty("today", id);
+  const deleteBlocker = id => deleteByProperty("blockers", id);
 
-  const deleteByProperty = (property, index) => {
+  const deleteByProperty = (property, id) => {
     setNote({
       ...note,
-      [property]: note[property].filter((val, i) => i !== index)
+      [property]: note[property].filter(val => val.id !== id)
     });
   };
 

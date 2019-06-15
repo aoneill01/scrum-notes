@@ -4,7 +4,7 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 const formatItem = item =>
   `- ${item.replace(
-    /ccg-\d+/gi,
+    /\w{2,7}-\d{1,7}/gi,
     "[$&](https://pointsource.atlassian.net/browse/$&)"
   )}`;
 
@@ -19,19 +19,21 @@ const ItemizedList = ({ items, onNewItem, onDeleteItem, editable }) => {
   };
 
   if (!editable) {
-    return items.map(item => <ReactMarkdown source={formatItem(item)} />);
+    return items.map(item => (
+      <ReactMarkdown source={formatItem(item.message)} />
+    ));
   }
 
   return (
     <>
       <TransitionGroup>
-        {items.map((item, i) => (
-          <CSSTransition key={item} timeout={500} classNames="item">
+        {items.map(item => (
+          <CSSTransition key={item.id} timeout={500} classNames="item">
             <div className="row">
-              <div className="delete-row" onClick={() => onDeleteItem(i)}>
+              <div className="delete-row" onClick={() => onDeleteItem(item.id)}>
                 ×
               </div>
-              <ReactMarkdown source={formatItem(item)} />
+              <ReactMarkdown source={formatItem(item.message)} />
             </div>
           </CSSTransition>
         ))}
